@@ -1,4 +1,4 @@
-package com.udacity.shoestore.screen.welcome
+package com.udacity.shoestore.screen.instruction
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,29 +8,30 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.udacity.shoestore.R
-import com.udacity.shoestore.databinding.FragmentWelcomeBinding
+import com.udacity.shoestore.databinding.FragmentInstructionBinding
 
-class WelcomeFragment : Fragment() {
+class InstructionFragment : Fragment() {
 
-    private lateinit var binding: FragmentWelcomeBinding
-    private val viewModel by viewModels<WelcomeViewModel>()
+    private lateinit var binding: FragmentInstructionBinding
+
+    private val viewModel by viewModels<InstructionViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentWelcomeBinding.inflate(inflater, container, false)
+        binding = FragmentInstructionBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.gotoInstructionEvent.observe(viewLifecycleOwner) { navigate ->
+        viewModel.navigateToShoeList.observe(viewLifecycleOwner) { navigate ->
             if (navigate) {
-                findNavController().navigate(R.id.action_welcomeFragment_to_instructionFragment)
-                viewModel.onNavigatedToInstructionScreen()
+                findNavController().navigate(R.id.action_instructionFragment_to_shoeListFragment)
+                viewModel.onNavigatedToShoeList()
             }
         }
     }
