@@ -4,4 +4,6 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="create_new_account">Create new account</string>
+    <string name="welcome_title">Hung Shoe Store</string>
+    <string name="welcome_message">Welcome to Hung\'s Shoe Store</string>
 </resources>
