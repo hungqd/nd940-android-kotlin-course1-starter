@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="shoe"
+            type="com.udacity.shoestore.models.Shoe" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/shoeNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{shoe.name}"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Biti's Hunter X" />
+
+        <TextView
+            android:id="@+id/sizeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{@string/shoe_size(shoe.size)}"
+            app:layout_constraintBaseline_toBaselineOf="@id/shoeNameTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Size: 41" />
+
+        <TextView
+            android:id="@+id/descriptionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{shoe.description}"
+            app:layout_constraintStart_toStartOf="@id/shoeNameTextView"
+            app:layout_constraintTop_toBottomOf="@id/shoeNameTextView"
+            tools:text="Nâng niu bàn chân Việt" />
+
+        <TextView
+            android:id="@+id/companyTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{shoe.company}"
+            app:layout_constraintStart_toStartOf="@id/shoeNameTextView"
+            app:layout_constraintTop_toBottomOf="@id/descriptionTextView"
+            tools:text="Biti's" />
+
+        <ScrollView
+            android:id="@+id/imageScrollView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/descriptionTextView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
