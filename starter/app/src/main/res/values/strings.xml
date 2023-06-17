@@ -9,5 +9,12 @@
     <string name="continue_text">Continue</string>
     <string name="go_to_shoe_list">Go to Shoe List</string>
     <string name="logout">Logout</string>
-    <string name="shoe_size">Size: %f</string>
+    <string name="shoe_size">Size: %.1f</string>
+    <string name="shoe_name">Shoe Name</string>
+    <string name="company">Company</string>
+    <string name="size">Size</string>
+    <string name="description">Description</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="name_is_required">Name is required</string>
 </resources>

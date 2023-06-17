@@ -1,6 +1,5 @@
 package com.udacity.shoestore.screen.shoe
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -23,27 +22,6 @@ class ShoeListFragment : Fragment() {
 
     private val viewModel by activityViewModels<ShoeViewModel>()
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        activity?.addMenuProvider(
-            object : MenuProvider {
-                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                    menuInflater.inflate(R.menu.menu_shoe_list, menu)
-                }
-
-                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                    return if (menuItem.itemId == R.id.logout) {
-                        findNavController().navigate(R.id.action_logout)
-                        true
-                    } else {
-                        false
-                    }
-                }
-            },
-            this,
-        )
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -59,8 +37,32 @@ class ShoeListFragment : Fragment() {
             .root
     }
 
+    private fun initMenu() {
+        activity?.addMenuProvider(
+            object : MenuProvider {
+                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                    menuInflater.inflate(R.menu.menu_shoe_list, menu)
+                }
+
+                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                    return if (menuItem.itemId == R.id.logout) {
+                        findNavController().navigate(R.id.action_logout)
+                        true
+                    } else {
+                        false
+                    }
+                }
+            },
+            viewLifecycleOwner,
+        )
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initMenu()
+        binding?.addShoeButton?.setOnClickListener {
+            findNavController().navigate(R.id.action_shoeList_to_shoeDetail)
+        }
         viewModel.shoes.observe(viewLifecycleOwner) { shoes ->
             binding?.let { binding ->
                 binding.shoeListLinearLayout.removeAllViews()
@@ -71,8 +73,19 @@ class ShoeListFragment : Fragment() {
                         binding.shoeListLinearLayout,
                         true
                     )
+                    shoeView.root.setOnClickListener {
+                        viewModel.gotoShoeDetail(shoe)
+                    }
                     shoeView.shoe = shoe
                 }
+            }
+        }
+
+        viewModel.eventViewShoeDetail.observe(viewLifecycleOwner) {
+            it?.let { shoe ->
+                val args = ShoeDetailFragmentArgs.Builder().setShoe(shoe).build()
+                findNavController().navigate(R.id.shoeDetailFragment, args.toBundle())
+                viewModel.onNavigatedToShoeDetail()
             }
         }
     }

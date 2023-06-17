@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="android.view.View" />
+
         <variable
             name="shoe"
             type="com.udacity.shoestore.models.Shoe" />
@@ -11,17 +14,20 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:padding="16dp">
 
         <TextView
             android:id="@+id/shoeNameTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="@{shoe.name}"
             android:textColor="@android:color/black"
             android:textSize="18sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/sizeTextView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Biti's Hunter X" />
@@ -31,27 +37,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{@string/shoe_size(shoe.size)}"
+            android:visibility="@{shoe.size > 0 ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBaseline_toBaselineOf="@id/shoeNameTextView"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="Size: 41" />
 
         <TextView
-            android:id="@+id/descriptionTextView"
-            android:layout_width="wrap_content"
+            android:id="@+id/companyTextView"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{shoe.description}"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{shoe.company}"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/shoeNameTextView"
             app:layout_constraintTop_toBottomOf="@id/shoeNameTextView"
-            tools:text="Nâng niu bàn chân Việt" />
+            tools:text="Biti's" />
 
         <TextView
-            android:id="@+id/companyTextView"
-            android:layout_width="wrap_content"
+            android:id="@+id/descriptionTextView"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{shoe.company}"
-            app:layout_constraintStart_toStartOf="@id/shoeNameTextView"
-            app:layout_constraintTop_toBottomOf="@id/descriptionTextView"
-            tools:text="Biti's" />
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{shoe.description}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/companyTextView"
+            app:layout_constraintTop_toBottomOf="@id/companyTextView"
+            tools:text="Nâng niu bàn chân Việt" />
 
         <ScrollView
             android:id="@+id/imageScrollView"
