@@ -21,6 +21,13 @@ class ShoeViewModel : ViewModel() {
         _navigateToShoeDetail.value = null
     }
 
+    private val _eventShoeSaved = MutableLiveData<Boolean>()
+    val eventShoeSaved: LiveData<Boolean> = _eventShoeSaved
+
+    fun onEventShoeSavedCompleted() {
+        _eventShoeSaved.value = false
+    }
+
     fun saveShoe(shoe: Shoe) {
         val allShoes = shoes.value.orEmpty().toMutableList()
         val index = allShoes.indexOfFirst { it.id == shoe.id }
@@ -30,5 +37,6 @@ class ShoeViewModel : ViewModel() {
             allShoes.add(shoe)
         }
         _shoes.value = allShoes
+        _eventShoeSaved.value = true
     }
 }

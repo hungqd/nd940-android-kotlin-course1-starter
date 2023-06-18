@@ -11,20 +11,30 @@ import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.udacity.shoestore.R
 import com.udacity.shoestore.databinding.FragmentShoeDetailBinding
-import com.udacity.shoestore.models.Shoe
-import java.util.UUID
 
 class ShoeDetailFragment : Fragment() {
 
     private var binding: FragmentShoeDetailBinding? = null
 
+    private val args by navArgs<ShoeDetailFragmentArgs>()
+
     private val viewModel by activityViewModels<ShoeViewModel>()
 
-    private val args by navArgs<ShoeDetailFragmentArgs>()
+    private val detailViewModel by viewModels<ShoeDetailViewModel>(factoryProducer = {
+        object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                @Suppress("UNCHECKED_CAST")
+                return ShoeDetailViewModel(args.shoe) as T
+            }
+        }
+    })
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,7 +53,8 @@ class ShoeDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.let { binding ->
             binding.lifecycleOwner = viewLifecycleOwner
-            binding.shoe = args.shoe
+            binding.viewModel = viewModel
+            binding.detailViewModel = detailViewModel
             binding.nameTextInputLayout.hint = buildSpannedString {
                 append(getString(R.string.shoe_name))
                 append(" ")
@@ -62,29 +73,23 @@ class ShoeDetailFragment : Fragment() {
                         null
                     }
             })
-            binding.saveButton.setOnClickListener {
-                val name = binding.nameEditText.text.toString()
-                val company = binding.companyEditText.text.toString()
-                val size = binding.sizeEditText.text.toString().toDoubleOrNull() ?: 0.0
-                val description = binding.descriptionEditText.text.toString()
-                val shoe = args.shoe?.copy(
-                    name = name,
-                    company = company,
-                    size = size,
-                    description = description,
-                ) ?: Shoe(
-                    id = UUID.randomUUID(),
-                    name = name,
-                    company = company,
-                    size = size,
-                    description = description,
-                )
-                viewModel.saveShoe(shoe)
-                findNavController().popBackStack()
-            }
 
             binding.cancelButton.setOnClickListener {
                 findNavController().popBackStack()
+            }
+        }
+
+        viewModel.eventShoeSaved.observe(viewLifecycleOwner) { saved ->
+            if (saved) {
+                findNavController().navigateUp()
+                viewModel.onEventShoeSavedCompleted()
+            }
+        }
+
+        detailViewModel.eventCancel.observe(viewLifecycleOwner) { cancelled ->
+            if (cancelled) {
+                findNavController().popBackStack()
+                detailViewModel.onEventCancelCompleted()
             }
         }
     }
