@@ -13,7 +13,7 @@ import com.udacity.shoestore.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
 
-    private lateinit var binding: FragmentLoginBinding
+    private var binding: FragmentLoginBinding? = null
 
     private val viewModel by viewModels<LoginViewModel>()
 
@@ -21,9 +21,16 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
-        return binding.root
+    ): View? {
+        binding = DataBindingUtil.inflate<FragmentLoginBinding?>(
+            inflater,
+            R.layout.fragment_login,
+            container,
+            false
+        ).apply {
+            this.viewModel = this@LoginFragment.viewModel
+        }
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,12 +41,11 @@ class LoginFragment : Fragment() {
                 viewModel.onNavigatedToWelcomeScreen()
             }
         }
-        binding.loginButton.setOnClickListener {
-            viewModel.login()
-        }
-        binding.newAccountButton.setOnClickListener {
-            viewModel.createNewAccount()
-        }
+    }
+
+    override fun onDestroyView() {
+        binding = null
+        super.onDestroyView()
     }
 
     private fun navigateToWelcomeScreen() {

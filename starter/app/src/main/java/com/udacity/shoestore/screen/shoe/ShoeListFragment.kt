@@ -37,6 +37,11 @@ class ShoeListFragment : Fragment() {
             .root
     }
 
+    override fun onDestroyView() {
+        binding = null
+        super.onDestroyView()
+    }
+
     private fun initMenu() {
         activity?.addMenuProvider(
             object : MenuProvider {

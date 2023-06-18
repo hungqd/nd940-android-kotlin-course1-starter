@@ -13,7 +13,7 @@ import com.udacity.shoestore.databinding.FragmentInstructionBinding
 
 class InstructionFragment : Fragment() {
 
-    private lateinit var binding: FragmentInstructionBinding
+    private var binding: FragmentInstructionBinding? = null
 
     private val viewModel by viewModels<InstructionViewModel>()
 
@@ -21,10 +21,21 @@ class InstructionFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_instruction, container, false)
-        binding.viewModel = viewModel
-        return binding.root
+    ): View? {
+        binding = DataBindingUtil.inflate<FragmentInstructionBinding?>(
+            inflater,
+            R.layout.fragment_instruction,
+            container,
+            false
+        ).apply {
+            viewModel = this@InstructionFragment.viewModel
+        }
+        return binding?.root
+    }
+
+    override fun onDestroyView() {
+        binding = null
+        super.onDestroyView()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

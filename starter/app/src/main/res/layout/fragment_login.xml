@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.udacity.shoestore.screen.login.LoginViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -54,6 +57,7 @@
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.login()}"
             android:text="@string/login"
             app:layout_constraintBottom_toTopOf="@id/newAccountButton"
             app:layout_constraintEnd_toEndOf="parent"
@@ -64,6 +68,7 @@
             android:id="@+id/newAccountButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.createNewAccount()}"
             android:text="@string/create_new_account"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
