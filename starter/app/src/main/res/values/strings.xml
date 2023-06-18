@@ -17,4 +17,6 @@
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
     <string name="name_is_required">Name is required</string>
+    <string name="instruction_1">1. Press \"Go to Shoe List\" to discover our shoes</string>
+    <string name="instruction_2">2. In \"Shoe List\" screen, You can press on plus (+) button to add a new shoe</string>
 </resources>
