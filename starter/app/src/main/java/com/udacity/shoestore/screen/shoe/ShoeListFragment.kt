@@ -83,8 +83,9 @@ class ShoeListFragment : Fragment() {
 
         viewModel.eventViewShoeDetail.observe(viewLifecycleOwner) {
             it?.let { shoe ->
-                val args = ShoeDetailFragmentArgs.Builder().setShoe(shoe).build()
-                findNavController().navigate(R.id.shoeDetailFragment, args.toBundle())
+                val direction =
+                    ShoeListFragmentDirections.actionShoeListToShoeDetail().setShoe(shoe)
+                findNavController().navigate(direction)
                 viewModel.onNavigatedToShoeDetail()
             }
         }
